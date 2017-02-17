@@ -387,28 +387,6 @@ namespace SynthLib2Parser {
         this->Scope = Scope;
     }
 
-  SynthInvCmd::SynthInvCmd(const SourceLocation& Location,
-                           const string& Name,
-                           const ArgList& Args,
-                           const vector<NTDef*> GrammarRules,
-                           SymbolTableScope* Scope)
-    : SynthFunCmd(Location, Name, Args, new BoolSortExpr(Location), GrammarRules, Scope)
-    {
-      // Nothing here
-    }
-
-  void SynthFunCmd::Accept(ASTVisitorBase* Visitor) const
-  {
-    Visitor->VisitSynthInvCmd(this);
-  }
-
-  ASTBase* SynthInvCmd::Clone() const
-  {
-    return new SynthInvCmd(Location, SynthFunName, CloneVector(Arguments),
-                           CloneVector(GrammarRules), Scope->Clone());
-  }
-
-
     SymbolTableScope* SynthFunCmd::GetScope() const
     {
         return Scope;
@@ -1841,23 +1819,6 @@ namespace SynthLib2Parser {
             Rule->Accept(this);
         }
     }
-
-  void ASTVisitorBase::VisitSynthInvCmd(const SynthInvCmd* Cmd)
-  {
-    auto const& ArgSorts = Cmd->GetArgs();
-    for(auto const& Arg : ArgSorts) {
-      Arg->Accept(this);
-    }
-
-    // Visit the return type
-    Cmd->GetSort()->Accept(this);
-    // Visit the Grammar rules
-    auto const& Rules = Cmd->GetGrammarRules();
-    for(auto const& Rule: Rules) {
-      Rule->Accept(this);
-    }
-  }
-
 
     void ASTVisitorBase::VisitSortDefCmd(const SortDefCmd* Cmd)
     {

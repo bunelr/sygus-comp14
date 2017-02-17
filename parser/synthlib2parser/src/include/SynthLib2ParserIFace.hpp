@@ -227,22 +227,6 @@ namespace SynthLib2Parser {
         SymbolTableScope* GetScope() const;
     };
 
-  class SynthInvCmd : public SynthFunCmd
-  {
-  private:
-  public:
-    SynthInvCmd(const SourceLocation& Location,
-                const string& Name,
-                const ArgList& Args,
-                const vector<NTDef*> GrammarRules,
-                SymbolTableScope* Scope);
-    virtual void Accept(ASTVisitorBase* Visitor) const override;
-    virtual ASTBase* Clone() const override;
-
-    // accessors
-    const string& GetInvName() const;
-  };
-
     class ConstraintCmd : public ASTCmd
     {
     private:
@@ -840,7 +824,6 @@ namespace SynthLib2Parser {
         virtual void VisitFunDefCmd(const FunDefCmd* Cmd);
         virtual void VisitFunDeclCmd(const FunDeclCmd* Cmd);
         virtual void VisitSynthFunCmd(const SynthFunCmd* Cmd);
-        virtual void VisitSynthInvCmd(const SynthInvCmd* Cmd);
         virtual void VisitSortDefCmd(const SortDefCmd* Cmd);
         virtual void VisitSetOptsCmd(const SetOptsCmd* Cmd);
         virtual void VisitVarDeclCmd(const VarDeclCmd* Cmd);
