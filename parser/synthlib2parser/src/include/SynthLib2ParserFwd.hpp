@@ -52,6 +52,7 @@ namespace SynthLib2Parser {
     enum ASTCmdKind {
         CMD_FUNDEF,
         CMD_SYNTHFUN,
+        CMD_SYNTHINV,
         CMD_FUNDECL,
         CMD_SORTDEF,
         CMD_SETOPTS,

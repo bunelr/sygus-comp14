@@ -150,6 +150,37 @@ namespace SynthLib2Parser {
                                      static_cast<SortExpr*>(Cmd->GetSort()->Clone()));
     }
 
+  void SymtabBuilder::VisitSynthInvCmd(const SynthInvCmd* Cmd)
+  {
+    // Push a new scope
+    TheSymbolTable->Push();
+    ASTVisitorBase::VisitSynthInvCmd(Cmd);
+    // All is good
+    Cmd->SetScope(TheSymbolTable->Pop());
+
+    // Gather the arg sorts
+    auto const& Args = Cmd->GetArgs();
+    const u32 NumArgs = Args.size();
+    vector<const SortExpr*> ArgSorts(NumArgs);
+    for(u32 i =0; i < NumArgs; ++i) {
+      ArgSorts[i] = Args[i]->GetSort();
+    }
+
+    // Check that no function exists of the same name
+    if (TheSymbolTable->LookupFun(Cmd->GetInvName(),
+                                  ArgSorts) != NULL) {
+      throw SynthLib2ParserException((string) "Invariant with name \"" +
+                                     Cmd->GetInvName() + "\" has already been defined/declared.\n" +
+                                     Cmd->GetLocation().ToString());
+    }
+
+    // Bind
+    TheSymbolTable->BindSynthFun(Cmd->getInvName(),
+                                 CloneVector(ArgSorts),
+                                 static_cast<SortExpr*>(Cmd->GetSort()->Clone()));
+  }
+
+
     void SymtabBuilder::VisitSortDefCmd(const SortDefCmd* Cmd)
     {
         ASTVisitorBase::VisitSortDefCmd(Cmd);
