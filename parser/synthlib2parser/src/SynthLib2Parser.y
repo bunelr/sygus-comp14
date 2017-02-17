@@ -103,6 +103,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %token TK_CONSTANT TK_VARIABLE TK_LOCAL_VARIABLE TK_INPUT_VARIABLE
 %token TK_ERROR TK_DOUBLECOLON
 %token TK_LET TK_ARRAY TK_REAL
+%token TK_DECLARE_PRIMED_VAR TK_SYNTH_INV TK_INV_CONSTRAINT
 
 %token<LexerString> TK_INT_LITERAL TK_REAL_LITERAL TK_BOOL_LITERAL
 %token<LexerString> TK_ENUM_LITERAL TK_BV_LITERAL TK_SYMBOL
@@ -517,6 +518,18 @@ SynthFunCmd : TK_LPAREN TK_SYNTH_FUN Symbol ArgList SortExpr
                 delete $3;
                 delete $4;
                 delete $7;
+            }
+
+SynthInvCmd : TK_LPAREN TK_SYNTH_INV Symbol ArgList
+              TK_LPAREN NTDefPlus TK_RPAREN TK_RPAREN
+            {
+              $$ = new SynthInvCmd(GetCurrentLocation(), *$3,
+                                   *$4, *$6, new SymbolTableScope());
+
+
+                delete $3;
+                delete $4;
+                delete $6;
             }
 
 GTerm : Symbol
