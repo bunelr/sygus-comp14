@@ -519,12 +519,12 @@ SynthFunCmd : TK_LPAREN TK_SYNTH_FUN Symbol ArgList SortExpr
                 delete $4;
                 delete $7;
             }
-
-SynthInvCmd : TK_LPAREN TK_SYNTH_INV Symbol ArgList
+            | TK_LPAREN TK_SYNTH_INV Symbol ArgList
               TK_LPAREN NTDefPlus TK_RPAREN TK_RPAREN
             {
-              $$ = new SynthInvCmd(GetCurrentLocation(), *$3,
-                                   *$4, *$6, new SymbolTableScope());
+              BoolSortExpr* implied_sort_expr = new BoolSortExpr(GetCurrentLocation());
+              $$ = new SynthFunCmd(GetCurrentLocation(), *$3,
+                                   *$4, implied_sort_expr, *$6, new SymbolTableScope());
 
 
                 delete $3;
