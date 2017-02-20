@@ -531,7 +531,17 @@ SynthFunCmd : TK_LPAREN TK_SYNTH_FUN Symbol ArgList SortExpr
                 delete $4;
                 delete $6;
             }
+            | TK_LPAREN TK_SYNTH_INV Symbol ArgList TK_RPAREN
+            {
+              BoolSortExpr* implied_sort_expr = new BoolSortExpr(GetCurrentLocation());
+              vector<NTDef*> empty_vec_NTDef;
+              $$ = new SynthFunCmd(GetCurrentLocation(), *$3,
+                                   *$4, implied_sort_expr, empty_vec_NTDef, new SymbolTableScope());
 
+
+              delete $3;
+              delete $4;
+            }
 GTerm : Symbol
       {
           $$ = new SymbolGTerm(GetCurrentLocation(), *$1);

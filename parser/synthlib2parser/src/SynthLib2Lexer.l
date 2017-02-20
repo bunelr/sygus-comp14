@@ -80,7 +80,7 @@ QUOTEDLIT               "\""([a-z]|[A-Z]|{DIGIT}|".")+"\""
 "set-logic"             { yycolnum += strlen(yytext); return TK_SET_LOGIC; }
 "constraint"            { yycolnum += strlen(yytext); return TK_CONSTRAINT; }
  "declare-primed-var"    { yycolnum += strlen(yytext); return TK_DECLARE_PRIMED_VAR; }
- "synth-inv"             { yycolnum += strlen(yytext); return TK_SYNTH_INV; }
+"synth-inv"             { yycolnum += strlen(yytext); return TK_SYNTH_INV; }
  "inv-constraint"        { yycolnum += strlen(yytext); return TK_INV_CONSTRAINT; }
 "("                     { yycolnum += strlen(yytext); return TK_LPAREN; }
 ")"                     { yycolnum += strlen(yytext); return TK_RPAREN; }
