@@ -192,6 +192,34 @@ namespace SynthLib2Parser {
         TheSymbolTable->BindVariable(Cmd->GetName(), static_cast<SortExpr*>(Cmd->GetSort()->Clone()));
     }
 
+  void SymtabBuilder::VisitPrimedVarDeclCmd(const PrimedVarDeclCmd* Cmd){
+    // Ensure that the sort is okay
+    ASTVisitorBase::VisitPrimedVarDeclCmd(Cmd);
+
+    // Check for redeclarations
+    vector<const SortExpr*> ArgSortDummy;
+    if (TheSymbolTable->LookupSort(Cmd->GetPreName()) != NULL ||
+        TheSymbolTable->LookupVariable(Cmd->GetPreName()) != NULL ||
+        TheSymbolTable->LookupFun(Cmd->GetPreName(), ArgSortDummy) != NULL){
+      throw SynthLib2ParserException((string)"Identifier \"" + Cmd->GetPreName() + "\" has " +
+                                     "already been declared/defined as a sort/variable/constant.\n" +
+                                     Cmd->GetLocation().ToString());
+
+    }
+    if (TheSymbolTable->LookupSort(Cmd->GetPostName()) != NULL ||
+        TheSymbolTable->LookupVariable(Cmd->GetPostName()) != NULL ||
+        TheSymbolTable->LookupFun(Cmd->GetPostName(), ArgSortDummy) != NULL){
+      throw SynthLib2ParserException((string)"Identifier \"" + Cmd->GetPostName() + "\" has " +
+                                     "already been declared/defined as a sort/variable/constant.\n" +
+                                     Cmd->GetLocation().ToString());
+
+    }
+
+    // Bind
+    TheSymbolTable->BindVariable(Cmd->GetPreName(), static_cast<SortExpr*>(Cmd->GetSort()->Clone()));
+    TheSymbolTable->BindVariable(Cmd->GetPostName(), static_cast<SortExpr*>(Cmd->GetSort()->Clone()));
+  }
+
     void SymtabBuilder::VisitConstraintCmd(const ConstraintCmd* Cmd)
     {
         // Check that the type of the term is okay

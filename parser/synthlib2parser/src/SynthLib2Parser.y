@@ -112,6 +112,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %type<TheSortExpr> SortExpr
 %type<TheCmd> SortDefCmd FunDefCmd FunDeclCmd SetOptsCmd SynthFunCmd
 %type<TheCmd> CheckSynthCmd VarDeclCmd SetLogicCmd ConstraintCmd Cmd
+%type<TheCmd> PrimedVarDeclCmd
 %type<CmdList> CmdPlus
 %type<LexerString> IntConst
 %type<LexerString> BoolConst
@@ -199,12 +200,20 @@ Cmd : FunDefCmd
     | SortDefCmd
     | SetOptsCmd
     | VarDeclCmd
+    | PrimedVarDeclCmd
 
 VarDeclCmd : TK_LPAREN TK_DECLARE_VAR Symbol SortExpr TK_RPAREN
            {
                $$ = new VarDeclCmd(GetCurrentLocation(),
                                    *$3, $4);
                delete $3;
+           }
+
+PrimedVarDeclCmd : TK_LPAREN TK_DECLARE_PRIMED_VAR Symbol SortExpr TK_RPAREN
+           {
+             $$ = new PrimedVarDeclCmd(GetCurrentLocation(),
+                                       *$3, $4);
+             delete $3;
            }
 
 SortDefCmd : TK_LPAREN TK_DEFINE_SORT Symbol SortExpr TK_RPAREN

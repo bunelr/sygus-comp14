@@ -79,8 +79,8 @@ QUOTEDLIT               "\""([a-z]|[A-Z]|{DIGIT}|".")+"\""
 "synth-fun"             { yycolnum += strlen(yytext); return TK_SYNTH_FUN; }
 "set-logic"             { yycolnum += strlen(yytext); return TK_SET_LOGIC; }
 "constraint"            { yycolnum += strlen(yytext); return TK_CONSTRAINT; }
- "declare-primed-var"    { yycolnum += strlen(yytext); return TK_DECLARE_PRIMED_VAR; }
 "synth-inv"             { yycolnum += strlen(yytext); return TK_SYNTH_INV; }
+"declare-primed-var"    { yycolnum += strlen(yytext); return TK_DECLARE_PRIMED_VAR; }
  "inv-constraint"        { yycolnum += strlen(yytext); return TK_INV_CONSTRAINT; }
 "("                     { yycolnum += strlen(yytext); return TK_LPAREN; }
 ")"                     { yycolnum += strlen(yytext); return TK_RPAREN; }

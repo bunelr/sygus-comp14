@@ -140,6 +140,16 @@ namespace SynthLib2Parser {
         Out << ")" << endl << endl;
     }
 
+  void PrintVisitor::VisitPrimedVarDeclCmd(const PrimedVarDeclCmd* Cmd)
+  {
+    Out << GetIndent() << "(declare-var " << Cmd->GetPreName() << " ";
+    Cmd->GetSort()->Accept(this);
+    Out << ")" <<endl;
+    Out << GetIndent() << "(declare-var " << Cmd->GetPostName() << " ";
+    Cmd->GetSort()->Accept(this);
+    Out << ")" <<endl;
+  }
+
 
     void PrintVisitor::VisitConstraintCmd(const ConstraintCmd* Cmd)
     {

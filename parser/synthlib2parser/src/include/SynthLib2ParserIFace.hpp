@@ -301,6 +301,30 @@ namespace SynthLib2Parser {
         const SortExpr* GetSort() const;
     };
 
+
+  class PrimedVarDeclCmd: public ASTCmd
+  {
+  private:
+    string pre_VarName;
+    string post_VarName;
+    // The type is the same for both the variables
+    const SortExpr* VarType;
+
+  public:
+    PrimedVarDeclCmd(const SourceLocation& Location,
+                     const string& VarPreName,
+                     const SortExpr* VarType);
+    virtual ~PrimedVarDeclCmd();
+
+    virtual void Accept(ASTVisitorBase* Visitor) const override;
+    virtual ASTBase* Clone() const override;
+
+    // accessors
+    const string& GetPreName() const;
+    const string& GetPostName() const;
+    const SortExpr* GetSort() const;
+  };
+
     class SortExpr : public ASTBase
     {
     private:
@@ -827,6 +851,7 @@ namespace SynthLib2Parser {
         virtual void VisitSortDefCmd(const SortDefCmd* Cmd);
         virtual void VisitSetOptsCmd(const SetOptsCmd* Cmd);
         virtual void VisitVarDeclCmd(const VarDeclCmd* Cmd);
+        virtual void VisitPrimedVarDeclCmd(const PrimedVarDeclCmd* Cmd);
         virtual void VisitConstraintCmd(const ConstraintCmd* Cmd);
         virtual void VisitSetLogicCmd(const SetLogicCmd* Cmd);
         virtual void VisitCheckSynthCmd(const CheckSynthCmd* Cmd);

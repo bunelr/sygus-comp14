@@ -511,6 +511,46 @@ namespace SynthLib2Parser {
         return VarType;
     }
 
+  PrimedVarDeclCmd::PrimedVarDeclCmd(const SourceLocation& Location,
+                                     const string& VarPreName,
+                                     const SortExpr* VarType)
+    :ASTCmd(Location, CMD_PRIMEDVARDECL), VarType(VarType)
+  {
+    this->pre_VarName = VarPreName;
+    this->post_VarName = VarPreName + "!";
+  }
+
+  PrimedVarDeclCmd::~PrimedVarDeclCmd()
+  {
+    delete VarType;
+  }
+
+  void PrimedVarDeclCmd::Accept(ASTVisitorBase* Visitor) const
+  {
+    Visitor->VisitPrimedVarDeclCmd(this);
+  }
+
+  ASTBase* PrimedVarDeclCmd::Clone() const
+  {
+    return new PrimedVarDeclCmd(Location, pre_VarName, static_cast<const SortExpr*>(VarType->Clone()));
+  }
+
+  const string& PrimedVarDeclCmd::GetPreName() const
+  {
+    return pre_VarName;
+  }
+
+  const string& PrimedVarDeclCmd::GetPostName() const
+  {
+    return post_VarName;
+  }
+
+  const SortExpr* PrimedVarDeclCmd::GetSort() const
+  {
+    return VarType;
+  }
+
+
     SortExpr::SortExpr(const SourceLocation& Location,
                        SortKind Kind)
         : ASTBase(Location), Kind(Kind)
@@ -1836,6 +1876,12 @@ namespace SynthLib2Parser {
         // Visit the sort expression
         Cmd->GetSort()->Accept(this);
     }
+
+  void ASTVisitorBase::VisitPrimedVarDeclCmd(const PrimedVarDeclCmd* Cmd)
+  {
+    // Visit the sort expression
+    Cmd->GetSort()->Accept(this);
+  }
 
     void ASTVisitorBase::VisitConstraintCmd(const ConstraintCmd* Cmd)
     {

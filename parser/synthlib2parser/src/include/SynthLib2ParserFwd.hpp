@@ -56,6 +56,7 @@ namespace SynthLib2Parser {
         CMD_SORTDEF,
         CMD_SETOPTS,
         CMD_VARDECL,
+        CMD_PRIMEDVARDECL,
         CMD_CONSTRAINT,
         CMD_SETLOGIC,
         CMD_CHECKSYNTH
@@ -68,6 +69,7 @@ namespace SynthLib2Parser {
     class SortDefCmd;
     class SetOptsCmd;
     class VarDeclCmd;
+    class PrimedVarDeclCmd;
     class ConstraintCmd;
     class CheckSynthCmd;
 
