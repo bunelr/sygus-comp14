@@ -550,6 +550,49 @@ namespace SynthLib2Parser {
     return VarType;
   }
 
+  InvConstraintCmd::InvConstraintCmd(const SourceLocation& Location,
+                                     const string& to_synth,
+                                     const string& pre_cond,
+                                     const string& trans_fun,
+                                     const string& post_cond)
+    : ASTCmd(Location, CMD_INVCONSTRAINT), FunToSynth(to_synth),
+      PreCondition(pre_cond), TransitionFunction(trans_fun), PostCondition(post_cond)
+  {
+    // Nothing special to do here.
+  }
+
+  InvConstraintCmd::~InvConstraintCmd(){}
+
+  void InvConstraintCmd::Accept(ASTVisitorBase* Visitor) const
+  {
+    Visitor->VisitInvConstraintCmd(this);
+  }
+
+  ASTBase* InvConstraintCmd::Clone() const
+  {
+    return new InvConstraintCmd(Location, FunToSynth,
+                                PreCondition, TransitionFunction, PostCondition);
+  }
+
+  const string& InvConstraintCmd::GetFunToSynth() const
+  {
+    return FunToSynth;
+  }
+
+  const string& InvConstraintCmd::GetPreCondition() const
+  {
+    return PreCondition;
+  }
+
+  const string& InvConstraintCmd::GetTransitionFunction() const
+  {
+    return TransitionFunction;
+  }
+
+  const string& InvConstraintCmd::GetPostCondition() const
+  {
+    return PostCondition;
+  }
 
     SortExpr::SortExpr(const SourceLocation& Location,
                        SortKind Kind)
@@ -1888,6 +1931,11 @@ namespace SynthLib2Parser {
         // Visit the constraint term
         Cmd->GetTerm()->Accept(this);
     }
+
+  void ASTVisitorBase::VisitInvConstraintCmd(const InvConstraintCmd* Cmd)
+  {
+    // Nothing to do really
+  }
 
     void ASTVisitorBase::VisitSetLogicCmd(const SetLogicCmd* Cmd)
     {

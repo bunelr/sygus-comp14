@@ -160,6 +160,15 @@ namespace SynthLib2Parser {
         Out << endl << GetIndent() << ")" << endl << endl;
     }
 
+  void PrintVisitor::VisitInvConstraintCmd(const InvConstraintCmd* Cmd)
+  {
+    Out << "(inv-constraint ";
+    Out << Cmd->GetFunToSynth() << " ";
+    Out << Cmd->GetPreCondition() << " ";
+    Out << Cmd->GetTransitionFunction() << " ";
+    Out << Cmd->GetPostCondition() << ")" << endl;
+  }
+
     void PrintVisitor::VisitSetLogicCmd(const SetLogicCmd* Cmd)
     {
         Out << GetIndent() << "(set-logic " << Cmd->GetLogicName() << ")" << endl << endl;

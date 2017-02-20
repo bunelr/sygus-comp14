@@ -62,6 +62,7 @@ namespace SynthLib2Parser {
         virtual void VisitSetOptsCmd(const SetOptsCmd* Cmd) override;
         virtual void VisitVarDeclCmd(const VarDeclCmd* Cmd) override;
         virtual void VisitPrimedVarDeclCmd(const PrimedVarDeclCmd* Cmd) override;
+        virtual void VisitInvConstraintCmd(const InvConstraintCmd* Cmd) override;
         virtual void VisitConstraintCmd(const ConstraintCmd* Cmd) override;
         virtual void VisitSetLogicCmd(const SetLogicCmd* Cmd) override;
         virtual void VisitCheckSynthCmd(const CheckSynthCmd* Cmd) override;

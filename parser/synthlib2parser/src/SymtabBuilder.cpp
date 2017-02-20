@@ -233,6 +233,16 @@ namespace SynthLib2Parser {
         return;
     }
 
+  void SymtabBuilder::VisitInvConstraintCmd(const InvConstraintCmd* Cmd)
+  {
+    // Let's check that all of the function we are handling have been defined
+
+    // TODO: At the moment, there is the problem that InvConstraint does not now
+    // the argument of the functions so we can't use the
+    // TheSymbolTable->LookupFun to verify that they have actually been defined.
+    return;
+  }
+
     void SymtabBuilder::VisitSetLogicCmd(const SetLogicCmd* Cmd)
     {
         ASTVisitorBase::VisitSetLogicCmd(Cmd);

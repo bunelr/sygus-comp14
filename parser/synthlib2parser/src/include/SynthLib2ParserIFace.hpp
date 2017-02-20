@@ -325,6 +325,32 @@ namespace SynthLib2Parser {
     const SortExpr* GetSort() const;
   };
 
+
+  class InvConstraintCmd: public ASTCmd
+  {
+  private:
+    string FunToSynth;
+    string PreCondition;
+    string TransitionFunction;
+    string PostCondition;
+  public:
+    InvConstraintCmd(const SourceLocation& Location,
+                     const string& to_synth,
+                     const string& pre_cond,
+                     const string& trans_fun,
+                     const string& post_cond);
+    virtual ~InvConstraintCmd();
+
+    virtual void Accept(ASTVisitorBase* Visitor) const override;
+    virtual ASTBase* Clone() const override;
+
+    // accessors
+    const string& GetFunToSynth() const;
+    const string& GetPreCondition() const;
+    const string& GetTransitionFunction() const;
+    const string& GetPostCondition() const;
+  };
+
     class SortExpr : public ASTBase
     {
     private:
@@ -853,6 +879,7 @@ namespace SynthLib2Parser {
         virtual void VisitVarDeclCmd(const VarDeclCmd* Cmd);
         virtual void VisitPrimedVarDeclCmd(const PrimedVarDeclCmd* Cmd);
         virtual void VisitConstraintCmd(const ConstraintCmd* Cmd);
+        virtual void VisitInvConstraintCmd(const InvConstraintCmd* Cmd);
         virtual void VisitSetLogicCmd(const SetLogicCmd* Cmd);
         virtual void VisitCheckSynthCmd(const CheckSynthCmd* Cmd);
         virtual void VisitArgSortPair(const ArgSortPair* ASPair);
